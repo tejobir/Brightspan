@@ -353,8 +353,8 @@
     // ─── Scroll Animations (Intersection Observer) ──
     function initScrollAnimations() {
         const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.05, // Lowered threshold so tall elements still trigger on small mobile screens
+            rootMargin: '0px 0px -20px 0px' // Less aggressive bottom margin
         };
 
         const observer = new IntersectionObserver((entries) => {
