@@ -13,20 +13,22 @@
     let loadProgress = 0;
 
     function updatePreloader() {
-        loadProgress += Math.random() * 12 + 3;
+        // Vastly speed up the artificial loading progress
+        loadProgress += Math.random() * 30 + 15;
         if (loadProgress > 100) loadProgress = 100;
 
         preloaderBar.style.width = loadProgress + '%';
         preloaderPercent.textContent = Math.round(loadProgress) + '%';
 
         if (loadProgress < 100) {
-            requestAnimationFrame(() => setTimeout(updatePreloader, 60 + Math.random() * 80));
+            // Reduce the ticking delay to feel extremely fast
+            requestAnimationFrame(() => setTimeout(updatePreloader, 15 + Math.random() * 15));
         } else {
             setTimeout(() => {
                 preloader.classList.add('hide');
                 document.body.classList.add('loaded');
                 initScrollAnimations();
-            }, 400);
+            }, 50); // Cut the final fade delay down from 400ms to 50ms
         }
     }
 
