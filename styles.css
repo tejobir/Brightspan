@@ -59,8 +59,8 @@ body {
     font-family: var(--font-body);
     background: var(--bg);
     color: var(--text-primary);
-    overflow-x: clip;
-    /* Fix for iOS Safari Intersection Observer bug */
+    overflow-x: hidden;
+    /* 'clip' is unsupported on older iOS Safari and causes black screen */
     cursor: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -377,6 +377,9 @@ img {
 .hero {
     position: relative;
     min-height: 100vh;
+    /* fallback */
+    min-height: 100dvh;
+    /* accounts for iOS Safari dynamic toolbar */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -389,6 +392,7 @@ img {
     position: absolute;
     border-radius: 50%;
     filter: blur(120px);
+    -webkit-filter: blur(120px);
     pointer-events: none;
     will-change: transform;
 }
@@ -578,7 +582,9 @@ body.loaded .char {
     flex-shrink: 0;
     margin: 0 clamp(-10px, -1vw, -5px);
     z-index: 5;
+    -webkit-perspective: 1400px;
     perspective: 1400px;
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 
@@ -612,8 +618,9 @@ body.loaded .image-stack {
     inset: 0;
     border-radius: 18px;
     overflow: hidden;
-    will-change: transform, opacity, box-shadow, filter;
+    will-change: transform, opacity;
     transform-origin: center bottom;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     /* Spring-based shuffle transition */
     transition:
@@ -1391,11 +1398,18 @@ body.loaded .hero-bottom {
         display: none;
     }
 
+    /* Simplify navbar on mobile — avoid backdrop-filter which is GPU-heavy on iOS */
+    .navbar {
+        mix-blend-mode: normal;
+        /* blend-mode: difference can cause iOS rendering bugs */
+    }
+
     .navbar-menu-btn {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 200px;
         padding: 12px 14px;
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
     }
 
@@ -1410,13 +1424,70 @@ body.loaded .hero-bottom {
         line-height: 0.95;
     }
 
+    /* === iOS Safari GPU Memory Optimization === */
+
+    /* Reduce hero glow blur from 120px to 60px on mobile — halves GPU cost */
+    .hero-glow {
+        filter: blur(60px);
+        -webkit-filter: blur(60px);
+        will-change: auto;
+        /* Release compositor layer reservation */
+        animation-duration: 20s;
+        /* Slow down to reduce GPU repaints */
+    }
+
+    .hero-glow-1 {
+        width: 50%;
+        height: 500px;
+    }
+
+    .hero-glow-2 {
+        width: 40%;
+        height: 500px;
+    }
+
+    .hero-glow-3 {
+        display: none;
+        /* Remove third glow entirely on mobile */
+    }
+
+    /* Flatten 3D on mobile Safari to prevent rendering pipeline crashes */
     .image-stack {
         width: 100%;
         max-width: none;
         height: 480px;
-        /* Taller on mobile to match ref */
         margin: 40px 0 0 0;
         order: 3;
+        -webkit-perspective: none;
+        perspective: none;
+        -webkit-transform-style: flat;
+        transform-style: flat;
+    }
+
+    /* Reduce compositing cost per card */
+    .stack-card {
+        will-change: auto;
+        -webkit-backface-visibility: visible;
+        backface-visibility: visible;
+    }
+
+    /* Simplify the glow-under-deck pseudo-element */
+    .image-stack::before {
+        filter: blur(15px);
+        -webkit-filter: blur(15px);
+        animation: none;
+        opacity: 0.5;
+    }
+
+    /* Disable deck float animation on mobile */
+    body.loaded .image-stack {
+        animation: none;
+    }
+
+    /* Simplify testimonial clip-path on mobile */
+    .stagger-card {
+        clip-path: none;
+        border-radius: 12px;
     }
 
     .hero-bottom {
@@ -1429,7 +1500,6 @@ body.loaded .hero-bottom {
     .hero-description {
         max-width: 100%;
         font-size: 1.05rem;
-        /* slightly larger for readability on mobile */
     }
 
     .hero-services {
@@ -1440,10 +1510,7 @@ body.loaded .hero-bottom {
     .service-tag {
         width: 100%;
         padding: 20px 0;
-        /* Add touch target height */
     }
-
-
 
     .footer-top {
         flex-direction: column;

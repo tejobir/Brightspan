@@ -6,6 +6,10 @@
 (function () {
     'use strict';
 
+    // ─── Mobile Detection ────────────────────────
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+        || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+
     // ─── Preloader ─────────────────────────────
     const preloader = document.getElementById('preloader');
     const preloaderBar = document.getElementById('preloaderBar');
@@ -154,7 +158,7 @@
         // Wider fan spread with 3D depth
         const yOffset = depth * -10;
         const xShift = depth === 0 ? 0 : (depth % 2 === 0 ? -5 : 5) * depth;
-        const zOffset = depth * -30; // 3D depth via translateZ
+        const zOffset = isMobile ? 0 : depth * -30; // Skip translateZ on mobile (iOS Safari crash)
         const scale = 1 - depth * 0.045;
 
         // More dramatic rotations for a hand-of-cards feel
@@ -167,19 +171,31 @@
         // Depth-of-field: subtle brightness reduction on deeper cards
         const brightness = depth === 0 ? 1 : Math.max(0.6, 1 - depth * 0.1);
 
-        // Shadow: dramatic on top card, subtle on rest
-        const shadowConfig = depth === 0
-            ? '0 25px 60px rgba(0,0,0,0.5), 0 0 100px rgba(232,70,28,0.06), 0 0 1px rgba(255,255,255,0.1)'
-            : `0 ${8 + depth * 2}px ${20 - depth * 3}px rgba(0,0,0,${0.3 - depth * 0.05})`;
+        // Shadow: dramatic on top card, subtle on rest (simplified on mobile)
+        let shadowConfig;
+        if (isMobile) {
+            shadowConfig = depth === 0
+                ? '0 15px 40px rgba(0,0,0,0.4)'
+                : `0 ${6 + depth * 2}px ${15 - depth * 2}px rgba(0,0,0,${0.25 - depth * 0.04})`;
+        } else {
+            shadowConfig = depth === 0
+                ? '0 25px 60px rgba(0,0,0,0.5), 0 0 100px rgba(232,70,28,0.06), 0 0 1px rgba(255,255,255,0.1)'
+                : `0 ${8 + depth * 2}px ${20 - depth * 3}px rgba(0,0,0,${0.3 - depth * 0.05})`;
+        }
 
         const zIndex = slotIndex + 1;
 
+        // Use 2D transforms on mobile to avoid iOS Safari compositing issues
+        const transform = isMobile
+            ? `translateX(${xShift}px) translateY(${yOffset}px) rotate(${rotation}deg) scale(${scale})`
+            : `translateX(${xShift}px) translateY(${yOffset}px) translateZ(${zOffset}px) rotate(${rotation}deg) scale(${scale})`;
+
         return {
-            transform: `translateX(${xShift}px) translateY(${yOffset}px) translateZ(${zOffset}px) rotate(${rotation}deg) scale(${scale})`,
+            transform,
             opacity,
             zIndex,
             boxShadow: shadowConfig,
-            filter: `brightness(${brightness})`,
+            filter: isMobile ? 'none' : `brightness(${brightness})`,
         };
     }
 
@@ -263,12 +279,14 @@
             topCard.style.transition = `
                 transform 0.25s cubic-bezier(0.55, 0.06, 0.68, 0.19),
                 opacity 0.2s cubic-bezier(0.55, 0.06, 0.68, 0.19),
-                filter 0.15s ease,
                 box-shadow 0.2s ease
+                ${isMobile ? '' : ', filter 0.15s ease'}
             `;
             topCard.style.transform = exitMove.transform;
             topCard.style.opacity = '0';
-            topCard.style.filter = 'brightness(1.3) blur(2px)';
+            if (!isMobile) {
+                topCard.style.filter = 'brightness(1.3) blur(2px)';
+            }
             topCard.style.boxShadow = '0 0 0 rgba(0,0,0,0)';
         }, 80);
 
@@ -315,9 +333,11 @@
 
     // ── Start the loop after load ──
     function startShuffleLoop() {
+        // Slower shuffle on mobile to reduce GPU pressure
+        const shuffleInterval = isMobile ? 2500 : 500;
         shuffleTimer = setInterval(() => {
             if (!isPaused) shuffleDeck();
-        }, 500);
+        }, shuffleInterval);
     }
 
     // Hook into the loaded event
