@@ -387,7 +387,7 @@
         }, observerOptions);
 
         const animTargets = document.querySelectorAll(
-            '.services-title, .service-card, .testimonials-title, .cta-title'
+            '.services-title, .service-card, .about-title, .cta-title'
         );
 
         animTargets.forEach((el, i) => {
@@ -541,130 +541,6 @@
         });
     }, { passive: true });
 
-    // ═══════════════════════════════════════════
-    // STAGGER TESTIMONIALS
-    // ═══════════════════════════════════════════
-    (function initStaggerTestimonials() {
-        const container = document.getElementById('staggerTestimonials');
-        if (!container) return;
 
-        const testimonials = [
-            { testimonial: "Content will be updated here soon.", by: "TBN", img: "https://i.pravatar.cc/150?img=50" },
-            { testimonial: "Content will be updated here soon.", by: "TBN", img: "https://i.pravatar.cc/150?img=51" },
-            { testimonial: "Content will be updated here soon.", by: "TBN", img: "https://i.pravatar.cc/150?img=52" },
-            { testimonial: "Content will be updated here soon.", by: "TBN", img: "https://i.pravatar.cc/150?img=53" },
-            { testimonial: "Content will be updated here soon.", by: "TBN", img: "https://i.pravatar.cc/150?img=54" },
-            { testimonial: "Content will be updated here soon.", by: "TBN", img: "https://i.pravatar.cc/150?img=55" }
-        ];
-
-        let list = testimonials.map((t, i) => ({ ...t, _id: i }));
-        let cardSize = window.matchMedia("(min-width: 640px)").matches ? 365 : 290;
-        let cardElements = [];
-
-        function getCardSize() {
-            return window.matchMedia("(min-width: 640px)").matches ? 365 : 290;
-        }
-
-        function createCardEl(item) {
-            const el = document.createElement('div');
-            el.className = 'stagger-card';
-            el.style.width = cardSize + 'px';
-            el.style.height = cardSize + 'px';
-            el.innerHTML = `
-                <span class="stagger-card-corner"></span>
-                <h3 class="stagger-card-quote">"${item.testimonial}"</h3>
-                <p class="stagger-card-by">- ${item.by}</p>
-            `;
-            return el;
-        }
-
-        function positionCards() {
-            const total = list.length;
-            const half = total % 2 === 0 ? total / 2 : (total + 1) / 2;
-
-            cardElements.forEach((el, index) => {
-                const position = total % 2 === 0
-                    ? index - total / 2
-                    : index - (total + 1) / 2;
-
-                const isCenter = position === 0;
-                const xOffset = (cardSize / 1.5) * position;
-                const yOffset = isCenter ? -65 : (position % 2 ? 15 : -15);
-                const rotation = isCenter ? 0 : (position % 2 ? 2.5 : -2.5);
-
-                el.style.transform = `translate(-50%, -50%) translateX(${xOffset}px) translateY(${yOffset}px) rotate(${rotation}deg)`;
-
-                if (isCenter) {
-                    el.classList.add('is-active');
-                    el.style.zIndex = 10;
-                    el.style.boxShadow = '0px 8px 0px 4px rgba(255,255,255,0.1)';
-                } else {
-                    el.classList.remove('is-active');
-                    el.style.zIndex = Math.max(0, 10 - Math.abs(position));
-                    el.style.boxShadow = '0px 0px 0px 0px transparent';
-                }
-            });
-        }
-
-        function handleMove(steps) {
-            const newList = [...list];
-            if (steps > 0) {
-                for (let i = 0; i < steps; i++) {
-                    const item = newList.shift();
-                    if (item) newList.push({ ...item, _id: Math.random() });
-                }
-            } else {
-                for (let i = 0; i < Math.abs(steps); i++) {
-                    const item = newList.pop();
-                    if (item) newList.unshift({ ...item, _id: Math.random() });
-                }
-            }
-            list = newList;
-            render();
-        }
-
-        function render() {
-            // Remove old cards
-            cardElements.forEach(el => el.remove());
-            cardElements = [];
-
-            // Create new cards
-            list.forEach((item, index) => {
-                const total = list.length;
-                const position = total % 2 === 0
-                    ? index - total / 2
-                    : index - (total + 1) / 2;
-
-                const el = createCardEl(item);
-                el.addEventListener('click', () => handleMove(position));
-                container.insertBefore(el, container.querySelector('.stagger-nav'));
-                cardElements.push(el);
-            });
-
-            positionCards();
-        }
-
-        // Navigation buttons
-        const prevBtn = document.getElementById('staggerPrev');
-        const nextBtn = document.getElementById('staggerNext');
-        if (prevBtn) prevBtn.addEventListener('click', () => handleMove(-1));
-        if (nextBtn) nextBtn.addEventListener('click', () => handleMove(1));
-
-        // Responsive resize
-        window.addEventListener('resize', () => {
-            const newSize = getCardSize();
-            if (newSize !== cardSize) {
-                cardSize = newSize;
-                cardElements.forEach(el => {
-                    el.style.width = cardSize + 'px';
-                    el.style.height = cardSize + 'px';
-                });
-                positionCards();
-            }
-        });
-
-        // Initial render
-        render();
-    })();
 
 })();
