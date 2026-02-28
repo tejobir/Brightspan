@@ -4,28 +4,28 @@
 
 :root {
     /* Colors */
-    --bg: #030303;
-    --bg-elevated: #111111;
-    --bg-card: #161616;
-    --bg-card-hover: #1c1c1c;
+    --bg: #1a0f0d;
+    --bg-elevated: #261613;
+    --bg-card: #2b1815;
+    --bg-card-hover: #361f1b;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.6);
     --text-tertiary: rgba(255, 255, 255, 0.35);
-    --accent: #e8461c;
+    --accent: #ff4d15;
     --accent-warm: #ff6b35;
     --accent-amber: #f5a623;
-    --glow-primary: rgba(142, 45, 14, 0.6);
-    /* deep red-orange */
-    --glow-secondary: rgba(181, 74, 21, 0.5);
+    --glow-primary: rgba(255, 60, 0, 0.55);
+    /* bright red-orange */
+    --glow-secondary: rgba(255, 120, 0, 0.45);
     /* bright orange */
-    --glow-tertiary: rgba(85, 23, 5, 0.7);
-    /* dark red */
+    --glow-tertiary: rgba(220, 20, 0, 0.6);
+    /* deep red */
     --border: rgba(255, 255, 255, 0.08);
     --border-hover: rgba(255, 255, 255, 0.15);
 
     /* Typography */
-    --font-display: 'Outfit', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
     /* Spacing */
     --section-pad: clamp(80px, 10vw, 140px);
