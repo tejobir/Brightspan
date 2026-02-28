@@ -24,7 +24,7 @@
     --border-hover: rgba(255, 255, 255, 0.15);
 
     /* Typography */
-    --font-display: 'Outfit', sans-serif;
+    --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
 
     /* Spacing */
@@ -112,9 +112,9 @@ img {
 
 .preloader-logo {
     font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-size: 2.5rem;
+    font-weight: 500;
+    letter-spacing: 0;
     margin-bottom: 32px;
     background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-warm) 100%);
     -webkit-background-clip: text;
@@ -230,9 +230,9 @@ img {
 
 .logo-text {
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.25rem;
-    letter-spacing: -0.02em;
+    font-weight: 500;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
 }
 
 .navbar-links {
@@ -501,9 +501,10 @@ img {
 .headline-word {
     font-family: var(--font-display);
     font-size: clamp(5rem, 12vw, 12rem);
-    font-weight: 800;
+    font-weight: 600;
+    font-style: italic;
     line-height: 0.9;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
     color: var(--text-primary);
     display: flex;
     white-space: nowrap;
@@ -1180,7 +1181,7 @@ body.loaded .hero-bottom {
     position: absolute;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, var(--glow-orange) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -1199,9 +1200,9 @@ body.loaded .hero-bottom {
 .cta-title {
     font-family: var(--font-display);
     font-size: clamp(2.2rem, 5vw, 4rem);
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.15;
-    letter-spacing: -0.02em;
+    letter-spacing: 0em;
     margin-bottom: 40px;
     opacity: 0;
     transform: translateY(40px);
@@ -1215,6 +1216,7 @@ body.loaded .hero-bottom {
 
 .cta-title em {
     font-style: italic;
+    font-weight: 400;
     background: linear-gradient(135deg, var(--accent) 0%, var(--accent-amber) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1303,8 +1305,8 @@ body.loaded .hero-bottom {
 .footer-logo {
     font-family: var(--font-display);
     font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-weight: 500;
+    letter-spacing: 0em;
     display: block;
     margin-bottom: 16px;
 }
@@ -1573,9 +1575,9 @@ body.loaded .hero-bottom {
 .about-title {
     font-family: var(--font-display);
     font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
+    font-weight: 500;
     margin-bottom: 60px;
-    letter-spacing: -0.02em;
+    letter-spacing: 0em;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
