@@ -4,24 +4,27 @@
 
 :root {
     /* Colors */
-    --bg: #eaddd3;
-    --bg-elevated: #e3d2c5;
-    --bg-card: #e3d2c5;
-    --bg-card-hover: #dcbfae;
-    --text-primary: #ba141a;
-    --text-secondary: rgba(186, 20, 26, 0.85);
-    --text-tertiary: rgba(186, 20, 26, 0.6);
-    --accent: #ba141a;
-    --accent-warm: #a61217;
-    --accent-amber: #d9181e;
-    --glow-primary: rgba(186, 20, 26, 0.12);
-    --glow-secondary: rgba(186, 20, 26, 0.08);
-    --glow-tertiary: rgba(186, 20, 26, 0.1);
-    --border: #ba141a;
-    --border-hover: rgba(186, 20, 26, 0.7);
+    --bg: #030303;
+    --bg-elevated: #111111;
+    --bg-card: #161616;
+    --bg-card-hover: #1c1c1c;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-tertiary: rgba(255, 255, 255, 0.35);
+    --accent: #e8461c;
+    --accent-warm: #ff6b35;
+    --accent-amber: #f5a623;
+    --glow-primary: rgba(142, 45, 14, 0.6);
+    /* deep red-orange */
+    --glow-secondary: rgba(181, 74, 21, 0.5);
+    /* bright orange */
+    --glow-tertiary: rgba(85, 23, 5, 0.7);
+    /* dark red */
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
 
     /* Typography */
-    --font-display: 'Oswald', sans-serif;
+    --font-display: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
 
     /* Spacing */
@@ -109,12 +112,14 @@ img {
 
 .preloader-logo {
     font-family: var(--font-display);
-    font-size: 2.5rem;
-    font-weight: 500;
-    letter-spacing: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     margin-bottom: 32px;
-    color: var(--text-primary);
-    text-transform: uppercase;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-warm) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .preloader-bar-track {
@@ -128,7 +133,7 @@ img {
 .preloader-bar-fill {
     width: 0%;
     height: 100%;
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--accent), var(--accent-amber));
     border-radius: 2px;
     transition: width 0.1s linear;
 }
@@ -226,9 +231,8 @@ img {
 .logo-text {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.5rem;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
 }
 
 .navbar-links {
@@ -496,12 +500,11 @@ img {
 
 .headline-word {
     font-family: var(--font-display);
-    font-size: clamp(5rem, 14vw, 14rem);
-    font-weight: 700;
+    font-size: clamp(5rem, 12vw, 12rem);
+    font-weight: 800;
     line-height: 0.9;
-    letter-spacing: 0em;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
-    text-transform: uppercase;
     display: flex;
     white-space: nowrap;
 }
@@ -1136,9 +1139,9 @@ body.loaded .hero-bottom {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg);
+    background: var(--bg-primary);
     border: 2px solid var(--border);
-    color: var(--text-primary);
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.25s ease;
     font-size: 0;
@@ -1177,7 +1180,7 @@ body.loaded .hero-bottom {
     position: absolute;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--glow-orange) 0%, transparent 70%);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -1195,11 +1198,10 @@ body.loaded .hero-bottom {
 
 .cta-title {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-size: clamp(2.2rem, 5vw, 4rem);
     font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: 0em;
-    text-transform: uppercase;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     margin-bottom: 40px;
     opacity: 0;
     transform: translateY(40px);
@@ -1212,10 +1214,11 @@ body.loaded .hero-bottom {
 }
 
 .cta-title em {
-    font-style: normal;
-    color: var(--bg);
-    background: var(--text-primary);
-    padding: 0 10px;
+    font-style: italic;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-amber) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .cta-main-btn {
@@ -1299,10 +1302,9 @@ body.loaded .hero-bottom {
 
 .footer-logo {
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: 0em;
-    text-transform: uppercase;
+    letter-spacing: -0.02em;
     display: block;
     margin-bottom: 16px;
 }
@@ -1570,11 +1572,10 @@ body.loaded .hero-bottom {
 
 .about-title {
     font-family: var(--font-display);
-    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
     margin-bottom: 60px;
-    letter-spacing: 0em;
-    text-transform: uppercase;
+    letter-spacing: -0.02em;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
@@ -1623,9 +1624,11 @@ body.loaded .hero-bottom {
 }
 
 .ai-highlight {
-    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-amber) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-weight: 700;
-    background-color: transparent;
 }
 
 @media (max-width: 900px) {
